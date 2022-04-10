@@ -10,7 +10,7 @@
  - osu! map downloader by ID.py
 
 # Credits/Contributor
- - PatrickL546
+ - PatrickL546 (I can't code, what I write will be bad)
 
 # License
 
