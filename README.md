@@ -8,6 +8,7 @@
  - Get beatmapset ID by MD5 hash.py
  - Open replay.ps1
  - osu! map downloader by ID.py
+ - Truncate replay.py
 
 # Credits/Contributor
  - PatrickL546 (I can't code, what I write will be bad)
