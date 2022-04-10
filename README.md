@@ -1,3 +1,6 @@
+# About The Project
+I wanted a way to download files from beatmap ID but cannot find a way so I made scripts for it. `Truncate replay.py` makes it easier to check for duplicate replay files
+
 # Requirements
  - Windows 10 for powershell scripts
  - Python 3.8.0+ (https://www.python.org/)
