@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pathlib import Path
 import os
 replayFilePath = input('Enter path of replay file(s): ')
