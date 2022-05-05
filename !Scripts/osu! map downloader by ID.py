@@ -8,6 +8,29 @@ import os
 import textwrap
 from datetime import datetime
 
+
+def WriteFailed():
+    failedTimeStamp = '1'
+
+    dateTime = datetime.now()
+    dateTimeFailed = dateTime.strftime("%d/%m/%Y %H:%M:%S")
+
+    print(f'Failed to download {beatmap}')
+
+    if exists('Failed.txt'):
+        if failedTimeStamp == '1':
+            failedTimeStamp = '0'
+            with open('Failed.txt', 'a') as f:
+                f.write(f'###Failed to download Beatmaps {dateTimeFailed}### \n')
+        with open('Failed.txt', 'a') as f:
+            f.write(f'{beatmap} status code: {r.status_code}\n')
+    else:
+        with open('Failed.txt', 'w') as f:
+            failedTimeStamp = '0'
+            f.write(f'###Failed to download Beatmaps {dateTimeFailed}### \n')
+            f.write(f'{beatmap} status code: {r.status_code}\n')
+
+
 print('''Default request frequency is 1 beatmap every ~22 seconds to avoid too many request, you can change this in source code
 Too many request error retry every ~60 seconds
 ''')
@@ -84,7 +107,6 @@ def print_roundtrip(response, *args, **kwargs):
     ))
 
 
-failedTimeStamp = '1'
 retryDownload = True
 
 for beatmap in beatmapList:
@@ -133,44 +155,15 @@ for beatmap in beatmapList:
                     print(f'Downloaded {beatmap}')
                     print('(-, – )…zzzZZZ')
                     sleep(downloadWait)
-            # Write failed download
             else:
-                dateTime = datetime.now()
-                dateTimeFailed = dateTime.strftime("%d/%m/%Y %H:%M:%S")
-                print(f'Failed to download {beatmap}')
-                if exists('Failed.txt'):
-                    if failedTimeStamp == '1':
-                        failedTimeStamp = '0'
-                        with open('Failed.txt', 'a') as f:
-                            f.write(f'###Failed to download Beatmaps {dateTimeFailed}### \n')
-                    with open('Failed.txt', 'a') as f:
-                        f.write(f'{beatmap} status code: {r.status_code}\n')
-                else:
-                    with open('Failed.txt', 'w') as f:
-                        failedTimeStamp = '0'
-                        f.write(f'###Failed to download Beatmaps {dateTimeFailed}### \n')
-                        f.write(f'{beatmap} status code: {r.status_code}\n')
+                WriteFailed()
             break
         elif r.status_code == 429:
             print('Too many request. Retrying...')
             sleep(retryError429)
         else:
-            dateTime = datetime.now()
-            dateTimeFailed = dateTime.strftime("%d/%m/%Y %H:%M:%S")
-            print(f'Failed to download {beatmap}')
-            if exists('Failed.txt'):
-                if failedTimeStamp == '1':
-                    failedTimeStamp = '0'
-                    with open('Failed.txt', 'a') as f:
-                        f.write(f'###Failed to download Beatmaps {dateTimeFailed}### \n')
-                with open('Failed.txt', 'a') as f:
-                    f.write(f'{beatmap} status code: {r.status_code}\n')
-            else:
-                with open('Failed.txt', 'w') as f:
-                    failedTimeStamp = '0'
-                    f.write(f'###Failed to download Beatmaps {dateTimeFailed}### \n')
-                    f.write(f'{beatmap} status code: {r.status_code}\n')
+            WriteFailed()
             break
 
-print('Finished downloading')
+print('Done!')
 os.system('pause')

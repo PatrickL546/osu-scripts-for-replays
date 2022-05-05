@@ -17,4 +17,5 @@ with open('MD5.txt', 'w') as f:
     for hash in replayHash:
         f.write(f'{str(hash, "utf-8")}\n')
 
+print('Done!')
 os.system('pause')

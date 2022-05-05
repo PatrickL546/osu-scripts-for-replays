@@ -8,6 +8,29 @@ import textwrap
 from datetime import datetime
 import json
 
+
+def WriteFailed():
+    failedTimeStamp = '1'
+
+    dateTime = datetime.now()
+    dateTimeFailed = dateTime.strftime("%d/%m/%Y %H:%M:%S")
+
+    print(f'Failed to get beatmap for: {hash}')
+
+    if exists('Failed.txt'):
+        if failedTimeStamp == '1':
+            failedTimeStamp = '0'
+            with open('Failed.txt', 'a') as f:
+                f.write(f'###Failed to get Beatmaps URL from hash {dateTimeFailed}###\n')
+        with open('Failed.txt', 'a') as f:
+            f.write(f'{hash} status code: {r.status_code}\n')
+    else:
+        with open('Failed.txt', 'w') as f:
+            failedTimeStamp = '0'
+            f.write(f'###Failed to get Beatmaps URL from hash {dateTimeFailed}###\n')
+            f.write(f'{hash} status code: {r.status_code}\n')
+
+
 print('''Default request frequency is 60 MD5 hash every ~60 seconds to avoid too many request, you can change this in source code
 Too many request error retry every ~60 seconds
 ''')
@@ -69,7 +92,6 @@ def print_roundtrip(response, *args, **kwargs):
     ))
 
 
-failedTimeStamp = '1'
 retryDownload = True
 
 for hash in MD5HashList:
@@ -106,44 +128,15 @@ for hash in MD5HashList:
                         print(f'Get URL: {beatmapURL}')
                         print('(-, – )…zzzZZZ')
                         sleep(requestWait)
-            # Write failed get
             else:
-                dateTime = datetime.now()
-                dateTimeFailed = dateTime.strftime("%d/%m/%Y %H:%M:%S")
-                print(f'Failed to get beatmap for: {hash}')
-                if exists('Failed.txt'):
-                    if failedTimeStamp == '1':
-                        failedTimeStamp = '0'
-                        with open('Failed.txt', 'a') as f:
-                            f.write(f'###Failed to get Beatmaps URL from hash {dateTimeFailed}###\n')
-                    with open('Failed.txt', 'a') as f:
-                        f.write(f'{hash} status code: {r.status_code}\n')
-                else:
-                    with open('Failed.txt', 'w') as f:
-                        failedTimeStamp = '0'
-                        f.write(f'###Failed to get Beatmaps URL from hash {dateTimeFailed}###\n')
-                        f.write(f'{hash} status code: {r.status_code}\n')
+                WriteFailed()
             break
         elif r.status_code == 429:
             print('Too many request. Retrying...')
             sleep(retryError429)
         else:
-            dateTime = datetime.now()
-            dateTimeFailed = dateTime.strftime("%d/%m/%Y %H:%M:%S")
-            print(f'Failed to get beatmap for: {hash}')
-            if exists('Failed.txt'):
-                if failedTimeStamp == '1':
-                    failedTimeStamp = '0'
-                    with open('Failed.txt', 'a') as f:
-                        f.write(f'###Failed to get Beatmaps URL from hash {dateTimeFailed}###\n')
-                with open('Failed.txt', 'a') as f:
-                    f.write(f'{hash} status code: {r.status_code}\n')
-            else:
-                with open('Failed.txt', 'w') as f:
-                    failedTimeStamp = '0'
-                    f.write(f'###Failed to get Beatmaps URL from hash {dateTimeFailed}###\n')
-                    f.write(f'{hash} status code: {r.status_code}\n')
+            WriteFailed()
             break
 
-print('Finished')
+print('Done!')
 os.system('pause')

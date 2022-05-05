@@ -8,4 +8,5 @@ for file in replayPath:
     os.startfile(file)
     print(f'Opened {str(file)}')
 
+print('Done!')
 os.system('pause')

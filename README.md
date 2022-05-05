@@ -1,6 +1,7 @@
 # About The Project
 
 I wanted a way to download files from beatmap ID and get Beatmapsets ID from replays but cannot find scripts online so I made scripts for it
+Don't look at the code
 
 ## Requirements
 
