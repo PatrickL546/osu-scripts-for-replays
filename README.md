@@ -2,10 +2,11 @@
 
 I wanted a way to download files from beatmap ID and get Beatmapsets ID from replays but cannot find scripts online so I made scripts for it
 
-Don't look at the code
+Don't look at the code, it is bad
 
 ## Requirements
 
+- Windows PC
 - Python 3.8.0+ (<https://www.python.org/>)
 - Additional library listed in requirements.txt
 
